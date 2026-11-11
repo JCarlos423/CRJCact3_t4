@@ -8,6 +8,7 @@ import com.act3_t4.act3_t4.models.Director;
 import com.act3_t4.act3_t4.repository.DirectorRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,16 +27,31 @@ public class DirectorService {
                 .collect(Collectors.toList());
     }
 
-    public DirectorDTO obtenerPorId(Long id) {
-        return directorRepository.findById(id)
-                .map(this::convertirADto)
-                .orElse(null);
+    public Optional<DirectorDTO> obtenerPorId(Long id) {
+        return directorRepository.findById(id).map(this::convertirADto);
     }
 
     public DirectorDTO guardar(DirectorDTO dto) {
         Director director = convertirAEntidad(dto);
         Director guardado = directorRepository.save(director);
         return convertirADto(guardado);
+    }
+
+    public Optional<DirectorDTO> actualizar(Long id, DirectorDTO dto) {
+        return directorRepository.findById(id).map(existente -> {
+            existente.setNombre(dto.getNombre());
+            existente.setNacionalidad(dto.getNacionalidad());
+            Director actualizado = directorRepository.save(existente);
+            return convertirADto(actualizado);
+        });
+    }
+
+    public boolean eliminar(Long id) {
+        if (directorRepository.existsById(id)) {
+            directorRepository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
     private DirectorDTO convertirADto(Director director) {
