@@ -45,7 +45,7 @@ public class PeliculaViewController {
         if (peliculaOpt.isPresent()) {
             model.addAttribute("peliculaDTO", peliculaOpt.get());
             model.addAttribute("directores", directorService.listarTodos());
-            return "formulario_pelicula"; // Debe coincidír con el nombre del HTML
+            return "peliculasform"; // Debe coincidír con el nombre del HTML
         }
         return "redirect:/peliculas";
     }
