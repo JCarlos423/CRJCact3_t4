@@ -1,5 +1,7 @@
 package com.act3_t4.act3_t4.controllers;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,9 +29,25 @@ public class PeliculaViewController {
     @GetMapping
     public String listar(Model model) {
         model.addAttribute("peliculas", peliculaService.listarTodas());
-        model.addAttribute("directores", directorService.listarTodos());
-        model.addAttribute("peliculaDTO", new PeliculaDTO());
         return "peliculas";
+    }
+
+    @GetMapping("/formpeli")
+    public String mostrarFormularioCrear(Model model) {
+        model.addAttribute("peliculaDTO", new PeliculaDTO());
+        model.addAttribute("directores", directorService.listarTodos());
+        return "peliculasform"; // Cambia este nombre al de tu archivo HTML del formulario
+    }
+
+    @GetMapping("/editar/{id}")
+    public String mostrarFormularioEditar(@PathVariable Long id, Model model) {
+        Optional<PeliculaDTO> peliculaOpt = peliculaService.obtenerPorId(id);
+        if (peliculaOpt.isPresent()) {
+            model.addAttribute("peliculaDTO", peliculaOpt.get());
+            model.addAttribute("directores", directorService.listarTodos());
+            return "formulario_pelicula"; // Debe coincidír con el nombre del HTML
+        }
+        return "redirect:/peliculas";
     }
 
     @PostMapping("/guardar")

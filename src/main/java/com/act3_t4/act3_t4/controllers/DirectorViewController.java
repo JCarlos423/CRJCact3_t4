@@ -1,5 +1,7 @@
 package com.act3_t4.act3_t4.controllers;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.act3_t4.act3_t4.dto.DirectorDTO;
 import com.act3_t4.act3_t4.services.DirectorService;
-
 
 @Controller
 @RequestMapping("/directores")
@@ -25,8 +26,23 @@ public class DirectorViewController {
     @GetMapping
     public String listar(Model model) {
         model.addAttribute("directores", directorService.listarTodos());
-        model.addAttribute("directorDTO", new DirectorDTO());
         return "directores";
+    }
+
+    @GetMapping("/formdir")
+    public String mostrarFormularioCrear(Model model) {
+        model.addAttribute("directorDTO", new DirectorDTO());
+        return "directoresform";
+    }
+
+    @GetMapping("/editar/{id}")
+    public String mostrarFormularioEditar(@PathVariable Long id, Model model) {
+        Optional<DirectorDTO> directorOpt = directorService.obtenerPorId(id);
+        if (directorOpt.isPresent()) {
+            model.addAttribute("directorDTO", directorOpt.get());
+            return "directoresform";
+        }
+        return "redirect:/directores";
     }
 
     @PostMapping("/guardar")
