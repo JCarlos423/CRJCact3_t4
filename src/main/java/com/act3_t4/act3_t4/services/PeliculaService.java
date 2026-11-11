@@ -4,8 +4,8 @@ import org.springframework.stereotype.Service;
 import com.act3_t4.act3_t4.dto.PeliculaDTO;
 import com.act3_t4.act3_t4.models.Director;
 import com.act3_t4.act3_t4.models.Pelicula;
-import com.act3_t4.act3_t4.repository.services.DirectorRepository;
-import com.act3_t4.act3_t4.repository.services.PeliculaRepository;
+import com.act3_t4.act3_t4.repository.DirectorRepository;
+import com.act3_t4.act3_t4.repository.PeliculaRepository;
 
 import java.util.List;
 import java.util.Optional;

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.act3_t4.act3_t4.dto.DirectorDTO;
 import com.act3_t4.act3_t4.models.Director;
-import com.act3_t4.act3_t4.repository.services.DirectorRepository;
+import com.act3_t4.act3_t4.repository.DirectorRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
